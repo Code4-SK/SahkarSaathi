@@ -1,0 +1,6 @@
+# OS / IDE metadata
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

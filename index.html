@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <!-- SEO & Meta Tags -->
+  <title>SahkarSaathi | Multilingual Cooperative Governance &amp; Legal Assistance Chatbot</title>
+  <meta name="description" content="SahkarSaathi is an AI-powered multilingual assistant helping farmers and PACS members discover government schemes, subsidies, and cooperative services in Tamil, Marathi, and Telugu with fast PACS office verification.">
+  <meta name="keywords" content="SahkarSaathi, PACS, Cooperative Governance, Agriculture Infrastructure Fund, PM-KUSUM, Tamil, Marathi, Telugu, Fast Verification">
+  <meta name="author" content="SahkarSaathi Project Initiative - SIH 2026">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#245C3A">
+
+  <!-- OpenGraph / Social Media Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sahkarsaathi.gov.in/">
+  <meta property="og:title" content="SahkarSaathi: Your Cooperative. Your Schemes. Your Language.">
+  <meta property="og:description" content="Multilingual scheme discovery, voice-enabled assistant, and rapid PACS verification assistant in Tamil, Marathi, and Telugu.">
+  <meta property="og:image" content="pacs_hardware_kiosk.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Google Fonts: Plus Jakarta Sans for modern clean readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tiro+Tamil&family=Tiro+Telugu&family=Tiro+Devanagari+Marathi&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Official Government Top Bar -->
+  <div class="gov-topbar">
+    <div class="gov-topbar-left">
+      <span class="gov-emblem-text">🏛️ Ministry of Cooperation &amp; NABARD Initiative</span>
+      <span class="topbar-divider">|</span>
+      <span>PACS Digital Governance &amp; Scheme Assistance</span>
+    </div>
+    <div class="gov-topbar-right">
+      <span class="auth-status-chip" id="topbar-auth-chip">
+        <span class="user-badge-dot"></span>
+        <span id="topbar-user-display">Logged in: Murugan K (Farmer Member)</span>
+      </span>
+      <button class="btn btn-secondary btn-sm" id="btn-open-login" title="Switch User Credentials">
+        👤 Switch Profile
+      </button>
+      <button class="btn btn-secondary btn-sm" onclick="toggleCustom404(true)" style="padding: 2px 8px; font-size: 11px;">
+        Test 404
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-section">
+        <div class="brand-icon" aria-hidden="true">
+          <!-- Green Sprout & Cooperative Shield SVG -->
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M12 8v8"/>
+            <path d="M8 12h8"/>
+          </svg>
+        </div>
+        <div class="brand-title-wrap">
+          <h1 class="brand-title">SahkarSaathi <span class="brand-badge-pill">सहकार साथी</span></h1>
+          <p class="brand-tagline">Your Cooperative. Your Schemes. Your Language.</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- PACS Office Hardware Assistant CTA -->
+        <button class="btn btn-kiosk-cta" onclick="openVerificationAssistant()" id="btn-open-verification">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          PACS Hardware Kiosk Terminal
+        </button>
+
+        <!-- Eligibility Verification CTA -->
+        <button class="btn btn-cta" onclick="openEligibilityWizard()" id="btn-main-cta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          Verify Scheme Eligibility
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Welcome Banner Section -->
+  <section class="hero-welcome-section">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-greeting" id="hero-greeting-text">
+          <span class="greeting-highlight">Vanakkam! வணக்கம் 👋</span>
+        </div>
+        <h2 class="hero-heading">
+          Empowering Rural Cooperatives with AI Scheme Guidance &amp; Instant Verification
+        </h2>
+        <p class="hero-subtext">
+          Discover available government subsidies, evaluate PACS benefits, and listen to scheme explanations in your native language.
+        </p>
+
+        <!-- Large One-Tap Language Selector -->
+        <div class="hero-language-selector-wrap">
+          <span class="hero-lang-label">Choose your language:</span>
+          <div class="hero-lang-buttons" role="group" aria-label="One-tap language selector">
+            <button class="btn-hero-lang active" data-lang="ta" onclick="selectHeroLanguage('ta')">
+              <span class="lang-native">தமிழ்</span>
+              <span class="lang-en">Tamil</span>
+            </button>
+            <button class="btn-hero-lang" data-lang="mr" onclick="selectHeroLanguage('mr')">
+              <span class="lang-native">मराठी</span>
+              <span class="lang-en">Marathi</span>
+            </button>
+            <button class="btn-hero-lang" data-lang="te" onclick="selectHeroLanguage('te')">
+              <span class="lang-native">తెలుగు</span>
+              <span class="lang-en">Telugu</span>
+            </button>
+            <button class="btn-hero-lang" data-lang="hi" onclick="selectHeroLanguage('hi')">
+              <span class="lang-native">हिन्दी</span>
+              <span class="lang-en">Hindi</span>
+            </button>
+            <button class="btn-hero-lang" data-lang="en" onclick="selectHeroLanguage('en')">
+              <span class="lang-native">English</span>
+              <span class="lang-en">Official</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Hardware Device Showcase Mini Card -->
+      <div class="hero-device-card" onclick="openVerificationAssistant()" title="Click to launch interactive PACS Hardware Kiosk">
+        <div class="device-card-header">
+          <span class="device-badge">⚡ PACS Hardware Assistant</span>
+          <span class="device-status-dot">Online</span>
+        </div>
+        <div class="device-img-frame">
+          <img src="pacs_hardware_kiosk.jpg" alt="SahkarSaathi PACS Cooperative AI Assistant Hardware Terminal" class="hero-kiosk-image" loading="lazy">
+        </div>
+        <div class="device-card-footer">
+          <div>
+            <strong>Cooperative AI Assistant Kiosk</strong>
+            <p style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Touchscreen · Voice TTS · QR &amp; OTP Fast Verification</p>
+          </div>
+          <span class="device-open-link">Open Kiosk &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Container -->
+  <main class="main-container" id="main-content">
+    
+    <!-- Application Active Workspace View -->
+    <div id="main-application-view">
+      
+      <!-- 3-Minute Timed Scheme Sync Status Bar -->
+      <section class="sync-status-bar" aria-label="Scheme synchronization status">
+        <div class="sync-status-left">
+          <span class="status-badge">
+            <span class="pulse-circle"></span>
+            Live PACS Feeds
+          </span>
+          <span id="sync-status-text">Simulated Scheme Updates Active (Every 3 Minutes)</span>
+        </div>
+        <div class="sync-status-right">
+          <span>Next Update in: <strong id="timer-countdown-display">03:00</strong></span>
+          <button class="btn btn-secondary btn-sm" id="btn-advance-timer" title="Simulate 3-minute time elapsed for instant demo testing">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 4 15 12 5 20 5 4"/>
+              <line x1="19" y1="5" x2="19" y2="19"/>
+            </svg>
+            Advance Timer by 3 min
+          </button>
+        </div>
+      </section>
+
+      <!-- Central Workspace Box (The Dynamic Text Box Space) -->
+      <section class="workspace-box" aria-label="Main Content Area">
+        
+        <!-- Workspace Header -->
+        <div class="workspace-header">
+          <div class="workspace-title-group">
+            <div class="workspace-icon-circle" id="workspace-icon-display">📥</div>
+            <div>
+              <h2 class="workspace-title" id="workspace-main-heading">SahkarSaathi Member Space</h2>
+              <span class="workspace-tag" id="current-view-tag">Scheme Inbox</span>
+            </div>
+          </div>
+          <div class="workspace-header-meta">
+            <span class="meta-item">Official Records: <strong>3 Government Schemes</strong></span>
+            <span class="active-persona-pill" id="active-persona-indicator">Profile: Murugan K (Tamil Nadu)</span>
+          </div>
+        </div>
+
+        <div class="workspace-content">
+          
+          <!-- VIEW 1: SCHEME INBOX -->
+          <div id="view-inbox" class="inbox-container">
+            <div class="inbox-toolbar">
+              <div class="inbox-filter-group" role="tablist" aria-label="Filter scheme notifications">
+                <button class="filter-btn active" data-filter="all">All Schemes (3)</button>
+                <button class="filter-btn" data-filter="unseen">Unread (!)</button>
+                <button class="filter-btn" data-filter="saved">Saved for Later ★</button>
+              </div>
+              <div class="inbox-legend">
+                <span class="legend-unseen"><span class="indicator-dot-red"></span> Unseen [!]</span>
+                <span class="legend-seen"><span class="indicator-dot-green"></span> Seen [✓]</span>
+              </div>
+            </div>
+
+            <!-- List of incoming official schemes -->
+            <ul class="scheme-list" id="scheme-inbox-list" aria-live="polite">
+              <!-- Rendered via JavaScript -->
+            </ul>
+          </div>
+
+          <!-- VIEW 2: MULTILINGUAL CHATBOT -->
+          <div id="view-chatbot" class="chatbot-container hidden">
+            
+            <!-- 3-Person Demo Persona Showcase Bar -->
+            <div class="persona-showcase-bar" aria-label="3-Person Demo Showcase">
+              <div class="persona-showcase-label">
+                <strong>🌾 3-Person Demo Showcase:</strong> (Click to switch persona, scheme &amp; voice language)
+              </div>
+              <div class="persona-buttons-wrap">
+                <button class="btn-persona active" data-persona="murugan" id="btn-persona-murugan" title="Farmer Murugan - Tamil Nadu (Tamil)">
+                  <span class="persona-avatar">👨🏽‍🌾</span>
+                  <div class="persona-text-wrap">
+                    <span class="persona-role">Farmer (Tamil Nadu)</span>
+                    <span class="persona-name">1. Murugan K (தமிழ்)</span>
+                  </div>
+                </button>
+                <button class="btn-persona" data-persona="patil" id="btn-persona-patil" title="PACS Secretary Ramesh Patil - Maharashtra (Marathi)">
+                  <span class="persona-avatar">👨💼</span>
+                  <div class="persona-text-wrap">
+                    <span class="persona-role">PACS Secretary (MH)</span>
+                    <span class="persona-name">2. Ramesh Patil (मराठी)</span>
+                  </div>
+                </button>
+                <button class="btn-persona" data-persona="venkat" id="btn-persona-venkat" title="Cooperative Member Venkat Rao - Andhra Pradesh (Telugu)">
+                  <span class="persona-avatar">👨🌾</span>
+                  <div class="persona-text-wrap">
+                    <span class="persona-role">Co-op Member (AP)</span>
+                    <span class="persona-name">3. Venkat Rao (తెలుగు)</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Controls Bar: Language Selector & Voice Output Toggle -->
+            <div class="chatbot-controls-bar">
+              <div class="language-selector-wrap">
+                <label for="language-select" class="control-label">🗣️ Active Language:</label>
+                <select id="language-select" class="select-input">
+                  <option value="ta">தமிழ் (Tamil)</option>
+                  <option value="mr">मराठी (Marathi)</option>
+                  <option value="te">తెలుగు (Telugu)</option>
+                  <option value="hi">हिन्दी (Hindi)</option>
+                  <option value="en">English (Official)</option>
+                </select>
+              </div>
+
+              <div class="voice-toggle-wrap">
+                <div class="voice-audio-status" id="voice-playing-indicator">
+                  <span class="audio-wave"></span>
+                  <span class="audio-wave"></span>
+                  <span class="audio-wave"></span>
+                  <span style="font-size: 11px; font-weight: 700; color: var(--color-forest);">Audio Ready</span>
+                </div>
+                <label class="toggle-label" for="toggle-auto-voice">
+                  <input type="checkbox" id="toggle-auto-voice" checked>
+                  Auto-Play Voice Output (TTS)
+                </label>
+              </div>
+            </div>
+
+            <!-- 3 Quick Scheme Prompts Bar -->
+            <div class="scheme-quick-bar" aria-label="Quick Demo Schemes">
+              <span class="scheme-quick-title">Quick Schemes:</span>
+              <button class="quick-scheme-btn" data-scheme-id="scheme-001" title="Explain PACS Computerization">
+                1. PACS Computerization ERP
+              </button>
+              <button class="quick-scheme-btn" data-scheme-id="scheme-002" title="Explain AIF 3% Subvention">
+                2. AIF 3% Interest Subvention
+              </button>
+              <button class="quick-scheme-btn" data-scheme-id="scheme-003" title="Explain PM-KUSUM Solar">
+                3. PM-KUSUM Solar Ag-Pumps
+              </button>
+            </div>
+
+            <!-- Chat messages stream -->
+            <div class="chat-messages-area" id="chat-messages-display" aria-live="polite">
+              <!-- Rendered via JavaScript -->
+            </div>
+
+            <!-- Suggested Prompts -->
+            <div class="suggested-prompts-bar">
+              <span class="prompts-label">Suggested:</span>
+              <button class="prompt-chip" data-prompt="Explain this scheme in detail">
+                💡 Explain this scheme
+              </button>
+              <button class="prompt-chip" data-prompt="Who is eligible for this scheme?">
+                📋 Who is eligible?
+              </button>
+              <button class="prompt-chip" data-prompt="What documents are required to apply?">
+                📑 Required documents
+              </button>
+              <button class="prompt-chip" data-prompt="What is the statutory verification timeline?">
+                ⏱️ Verification timeline
+              </button>
+            </div>
+
+            <!-- Input Box -->
+            <div class="chat-input-bar">
+              <label for="chat-text-input" class="sr-only">Type your scheme or eligibility question</label>
+              <input type="text" id="chat-text-input" class="chat-text-field" placeholder="Ask about PACS computerization, AIF subsidy, PM-KUSUM solar pumps..." autocomplete="off">
+              <button class="btn btn-primary" id="btn-chat-send">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+                Send Query
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Option Switcher Bar (Placed directly below the main content area) -->
+      <section class="view-selector-bar" aria-label="Option Switcher Controls">
+        <div class="selector-label">
+          Switch Module:
+        </div>
+        <div class="selector-button-group" role="tablist">
+          <button class="mode-tab-btn active" id="tab-inbox" role="tab" aria-selected="true" aria-controls="view-inbox">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/>
+              <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
+            </svg>
+            1. Scheme Inbox
+            <span class="tab-badge-unread" id="inbox-unread-count">1 Unseen</span>
+          </button>
+
+          <button class="mode-tab-btn" id="tab-chatbot" role="tab" aria-selected="false" aria-controls="view-chatbot">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            2. Multilingual Chatbot
+          </button>
+        </div>
+      </section>
+
+      <!-- PACS Hardware Terminal Highlight Section (Showcasing Front & Rear View) -->
+      <section class="hardware-showcase-section">
+        <div class="hardware-showcase-card">
+          <div class="hardware-card-left">
+            <div class="kiosk-tag">Hardware Component</div>
+            <h3 class="hardware-card-title">PACS Office Multilingual AI Kiosk &amp; Verification Terminal</h3>
+            <p class="hardware-card-desc">
+              Installed at local Primary Agricultural Credit Society (PACS) service offices, this hardware terminal provides an identical voice-assisted chatbot interface paired with a fast verification check assistant to accelerate member authentication.
+            </p>
+            <div class="hardware-spec-grid">
+              <div class="spec-pill">🖥️ 10.1" Interactive Touchscreen</div>
+              <div class="spec-pill">🔊 Dual High-Fidelity Voice Speakers</div>
+              <div class="spec-pill">📷 Optical Camera for QR Scanning</div>
+              <div class="spec-pill">📱 2-Step SMS OTP Authenticator</div>
+              <div class="spec-pill">🖨️ Instant Verification Slip Generation</div>
+              <div class="spec-pill">🌐 Offline &amp; LAN Cloud Sync</div>
+            </div>
+            <div style="margin-top: 18px;">
+              <button class="btn btn-cta" onclick="openVerificationAssistant()">
+                Launch PACS Verification Terminal Demo &rarr;
+              </button>
+            </div>
+          </div>
+          <div class="hardware-card-right">
+            <img src="pacs_hardware_kiosk.jpg" alt="PACS Cooperative AI Assistant Front and Rear View" class="kiosk-full-image" loading="lazy">
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Custom 404 View -->
+    <div id="custom-404-view" class="custom-404-container hidden">
+      <h2>404</h2>
+      <h3 style="color: var(--color-forest); margin-bottom: 12px; font-weight: 700;">Scheme Record Not Found</h3>
+      <p>The requested government scheme or cooperative guideline could not be located.</p>
+      <button class="btn btn-primary" onclick="toggleCustom404(false)">
+        Return to SahkarSaathi Workspace
+      </button>
+    </div>
+
+  </main>
+
+  <!-- USER LOGIN & CREDENTIALS MODAL -->
+  <div id="login-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-login-title">
+    <div class="modal-card modal-card-md">
+      <div class="modal-header">
+        <h3 id="modal-login-title">👤 Client Login &amp; Designation Profile</h3>
+        <button class="btn btn-secondary btn-sm" id="btn-close-login-modal" onclick="closeLoginModal()" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+          Authenticate client credentials to verify identity for government subsidy eligibility and PACS services.
+        </p>
+
+        <!-- Quick 3-Persona Fast Login Selection -->
+        <div class="login-quick-personas">
+          <div style="font-size: 12px; font-weight: 700; color: var(--color-forest); margin-bottom: 8px;">
+            ⚡ Quick-Fill Demo Personas:
+          </div>
+          <div class="quick-persona-btn-grid">
+            <button type="button" class="btn btn-outline btn-sm" onclick="fillLoginForm('murugan')">
+              👨🏽‍🌾 Murugan (Farmer - Tamil)
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="fillLoginForm('patil')">
+              👨💼 Ramesh Patil (Secretary - Marathi)
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="fillLoginForm('venkat')">
+              👨🌾 Venkat Rao (Member - Telugu)
+            </button>
+          </div>
+        </div>
+
+        <form id="user-login-form" onsubmit="event.preventDefault(); handleUserLoginSubmit();">
+          <div class="form-group">
+            <label for="login-username" class="form-label">Username / Full Name *</label>
+            <input type="text" id="login-username" class="input-field" placeholder="e.g. Murugan K" required>
+          </div>
+
+          <div class="form-group">
+            <label for="login-password" class="form-label">Password *</label>
+            <input type="password" id="login-password" class="input-field" value="SahkarPass@2026" required>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="login-designation" class="form-label">Designation *</label>
+              <select id="login-designation" class="select-input" style="width: 100%;" required>
+                <option value="Farmer Member">Farmer Member</option>
+                <option value="PACS Secretary">PACS Secretary</option>
+                <option value="Cooperative Society Member">Cooperative Society Member</option>
+                <option value="FPO Representative">FPO Representative</option>
+                <option value="PACS Staff / Facilitator">PACS Staff / Facilitator</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="login-pacs-id" class="form-label">PACS Society Code *</label>
+              <input type="text" id="login-pacs-id" class="input-field" placeholder="e.g. TN-SLM-PACS-402" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="login-aadhaar" class="form-label">Aadhaar Number (12 Digits) *</label>
+              <input type="text" id="login-aadhaar" class="input-field" placeholder="XXXX-XXXX-XXXX" maxlength="14" required>
+              <span class="field-hint">Masked security format (e.g. 5834-XXXX-9120)</span>
+            </div>
+
+            <div class="form-group">
+              <label for="login-mobile" class="form-label">Mobile Number (For Fast OTP) *</label>
+              <input type="tel" id="login-mobile" class="input-field" placeholder="9876543210" maxlength="10" required>
+              <span class="field-hint">Used for in-office 2-step SMS OTP</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 18px; display: flex; gap: 10px; justify-content: flex-end;">
+            <button type="button" class="btn btn-secondary" onclick="closeLoginModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Profile &amp; Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- PACS HARDWARE FAST VERIFICATION CHECK ASSISTANT MODAL -->
+  <div id="verification-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-verification-title">
+    <div class="modal-card modal-card-lg">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="terminal-badge">⚡ PACS HARDWARE TERMINAL</div>
+          <h3 id="modal-verification-title">Fast Verification Check Assistant</h3>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="btn-close-verif-modal" onclick="closeVerificationModal()" aria-label="Close modal">✕</button>
+      </div>
+      
+      <div class="modal-body" id="verif-modal-body">
+        
+        <!-- Interactive Progress Steps -->
+        <div class="verif-stepper">
+          <div class="verif-step active" id="step-tab-1">
+            <span class="step-num">1</span>
+            <span class="step-label">QR Scan &amp; Auth</span>
+          </div>
+          <div class="verif-step" id="step-tab-2">
+            <span class="step-num">2</span>
+            <span class="step-label">SMS OTP Check</span>
+          </div>
+          <div class="verif-step" id="step-tab-3">
+            <span class="step-num">3</span>
+            <span class="step-label">Eligibility &amp; Docs</span>
+          </div>
+          <div class="verif-step" id="step-tab-4">
+            <span class="step-num">4</span>
+            <span class="step-label">Printable Output</span>
+          </div>
+        </div>
+
+        <!-- STEP 1: QR CODE SCAN & CLIENT CREDENTIALS -->
+        <div id="verif-step-1" class="verif-step-content">
+          <div class="terminal-info-card">
+            <h4>📷 PACS Optical Camera / Scanner Simulation</h4>
+            <p>Scanning client Aadhaar / PACS QR badge for instant credential verification without lengthy paper queues.</p>
+          </div>
+
+          <div class="qr-scan-layout">
+            <div class="qr-code-box">
+              <div class="qr-visual" id="client-qr-preview">
+                <!-- SVG QR Code Visual -->
+                <svg width="140" height="140" viewBox="0 0 100 100" fill="currentColor">
+                  <rect x="0" y="0" width="30" height="30" fill="#245C3A"/>
+                  <rect x="5" y="5" width="20" height="20" fill="#ffffff"/>
+                  <rect x="10" y="10" width="10" height="10" fill="#245C3A"/>
+                  <rect x="70" y="0" width="30" height="30" fill="#245C3A"/>
+                  <rect x="75" y="5" width="20" height="20" fill="#ffffff"/>
+                  <rect x="80" y="10" width="10" height="10" fill="#245C3A"/>
+                  <rect x="0" y="70" width="30" height="30" fill="#245C3A"/>
+                  <rect x="5" y="75" width="20" height="20" fill="#ffffff"/>
+                  <rect x="10" y="80" width="10" height="10" fill="#245C3A"/>
+                  <rect x="35" y="10" width="10" height="20" fill="#245C3A"/>
+                  <rect x="50" y="5" width="15" height="10" fill="#245C3A"/>
+                  <rect x="35" y="35" width="30" height="10" fill="#245C3A"/>
+                  <rect x="40" y="50" width="20" height="20" fill="#245C3A"/>
+                  <rect x="70" y="40" width="10" height="25" fill="#245C3A"/>
+                  <rect x="70" y="75" width="25" height="10" fill="#245C3A"/>
+                  <rect x="15" y="40" width="15" height="15" fill="#245C3A"/>
+                  <rect x="85" y="85" width="10" height="10" fill="#245C3A"/>
+                </svg>
+              </div>
+              <div class="qr-scan-laser" id="qr-laser"></div>
+              <button class="btn btn-primary btn-sm" id="btn-simulate-qr-scan" onclick="triggerQrScan()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10"/>
+                  <polyline points="1 20 1 14 7 14"/>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                </svg>
+                Scan QR Code Now
+              </button>
+            </div>
+
+            <div class="client-details-card">
+              <h5 style="color: var(--color-forest); margin-bottom: 8px; font-weight: 700;">Client Hardware Profile</h5>
+              <table class="verif-data-table">
+                <tr>
+                  <td>Full Name:</td>
+                  <td><strong id="verif-client-name">Murugan K</strong></td>
+                </tr>
+                <tr>
+                  <td>Designation:</td>
+                  <td><span class="badge-neutral" id="verif-client-desig">Farmer Member</span></td>
+                </tr>
+                <tr>
+                  <td>Masked Aadhaar:</td>
+                  <td><span class="aadhaar-badge" id="verif-client-aadhaar">5834-XXXX-9120</span></td>
+                </tr>
+                <tr>
+                  <td>Registered Mobile:</td>
+                  <td><strong id="verif-client-phone">+91 98401 23456</strong></td>
+                </tr>
+                <tr>
+                  <td>PACS Society ID:</td>
+                  <td><strong id="verif-client-pacs">TN-SLM-PACS-402</strong></td>
+                </tr>
+                <tr>
+                  <td>QR Verification Status:</td>
+                  <td><span class="status-pill status-pill-pending" id="verif-qr-status">Pending QR Scan</span></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="step-footer">
+            <button class="btn btn-primary" id="btn-proceed-otp" onclick="proceedToOtpStep()" disabled>
+              Proceed to Phone OTP Verification &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: SMS OTP VERIFICATION -->
+        <div id="verif-step-2" class="verif-step-content hidden">
+          <div class="terminal-info-card">
+            <h4>📱 Fast 2-Step Phone OTP Verification</h4>
+            <p>An instant 6-digit one-time password has been dispatched to the client's registered mobile number.</p>
+          </div>
+
+          <!-- Simulated SMS Notification Pop -->
+          <div class="simulated-sms-banner" id="simulated-sms-banner">
+            <div class="sms-icon">💬</div>
+            <div class="sms-content">
+              <strong>Govt PACS SMS Alert:</strong> Your SahkarSaathi verification OTP is <strong id="simulated-otp-code">482910</strong>. Valid for 5 minutes. Do not share.
+              <button class="btn-autofill-otp" onclick="autofillOtp()">⚡ Autofill OTP</button>
+            </div>
+          </div>
+
+          <div class="otp-input-section">
+            <label for="otp-input-field" class="form-label" style="text-align: center; display: block; font-size: 14px;">
+              Enter 6-Digit OTP received on <strong id="otp-phone-display">+91 98401 23456</strong>:
+            </label>
+            <div class="otp-boxes">
+              <input type="text" id="otp-input-field" class="otp-field-main" maxlength="6" placeholder="______" autocomplete="one-time-code">
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+              <button class="btn btn-primary" onclick="verifyOtpCode()">
+                Verify OTP &amp; Authenticate
+              </button>
+            </div>
+            <div id="otp-verif-result" style="margin-top: 10px; text-align: center;"></div>
+          </div>
+
+          <div class="step-footer" style="justify-content: space-between;">
+            <button class="btn btn-secondary" onclick="goBackToStep(1)">&larr; Back to QR</button>
+            <button class="btn btn-primary" id="btn-proceed-docs" onclick="proceedToDocsStep()" disabled>
+              Proceed to Scheme Eligibility Evaluation &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: SCHEME ELIGIBILITY & MISSING DOCUMENTS -->
+        <div id="verif-step-3" class="verif-step-content hidden">
+          <div class="terminal-info-card">
+            <h4>📑 Scheme Eligibility &amp; Document Checklist Assistant</h4>
+            <p>Select target scheme and check verified physical/digital documents to assess statutory eligibility.</p>
+          </div>
+
+          <div class="verif-eval-form">
+            <div class="form-group">
+              <label for="eval-target-scheme" class="form-label">Target Government Scheme *</label>
+              <select id="eval-target-scheme" class="select-input" style="width: 100%; font-size: 14px; font-weight: 600;" onchange="updateDocChecklistForScheme()">
+                <option value="scheme-003">PM-KUSUM Component-A/C - Solar Agriculture Pumps (60% Subsidy)</option>
+                <option value="scheme-002">Agriculture Infrastructure Fund (AIF) - 3% Interest Subvention</option>
+                <option value="scheme-001">Computerization of PACS - 100% ERP &amp; Hardware Grant</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Document Verification Checklist (Tick all verified submitted documents):</label>
+              <div class="doc-checklist-container" id="doc-checklist-container">
+                <!-- Dynamically filled with checkboxes -->
+              </div>
+            </div>
+
+            <div style="margin-top: 14px;">
+              <button class="btn btn-cta" onclick="runEligibilityEvaluation()" style="width: 100%;">
+                Run Automated Eligibility Decision &amp; Missing Docs Check
+              </button>
+            </div>
+
+            <div id="eval-decision-output" class="eval-decision-card hidden"></div>
+          </div>
+
+          <div class="step-footer" style="justify-content: space-between;">
+            <button class="btn btn-secondary" onclick="goBackToStep(2)">&larr; Back to OTP</button>
+            <button class="btn btn-primary" id="btn-proceed-print" onclick="proceedToPrintStep()" disabled>
+              Generate Printable Verification Output &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4: PRINTABLE VERIFICATION OUTPUT -->
+        <div id="verif-step-4" class="verif-step-content hidden">
+          <div class="print-actions-top no-print">
+            <div>
+              <span class="badge-success">✓ Verification Complete</span>
+              <span style="font-size: 13px; color: var(--text-muted); margin-left: 8px;">Ready for PACS registry archive &amp; client hand-over</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-secondary btn-sm" onclick="goBackToStep(3)">&larr; Back</button>
+              <button class="btn btn-cta btn-sm" onclick="window.print()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 6 2 18 2 18 9"/>
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                  <rect x="6" y="14" width="12" height="8"/>
+                </svg>
+                Print Official Slip / Save PDF
+              </button>
+            </div>
+          </div>
+
+          <!-- THE OFFICIAL PRINTABLE SLIP -->
+          <div class="printable-slip" id="printable-verification-slip">
+            <div class="slip-header">
+              <div class="slip-gov-seal">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#245C3A" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path d="M12 8v8"/>
+                  <path d="M8 12h8"/>
+                </svg>
+              </div>
+              <div class="slip-header-titles">
+                <h3>PRIMARY AGRICULTURAL CREDIT SOCIETY (PACS)</h3>
+                <h4>GOVERNMENT SCHEME ELIGIBILITY &amp; STATUTORY VERIFICATION SLIP</h4>
+                <p>Ministry of Cooperation &amp; State Cooperative Registrar Portal</p>
+              </div>
+              <div class="slip-qr-stamp">
+                <div id="slip-qr-svg"></div>
+                <span class="slip-qr-code" id="slip-ref-code">VERIF-2026-9481</span>
+              </div>
+            </div>
+
+            <div class="slip-divider"></div>
+
+            <div class="slip-section-grid">
+              <div class="slip-grid-col">
+                <div class="slip-label">Client Name:</div>
+                <div class="slip-val" id="slip-client-name">Murugan K</div>
+              </div>
+              <div class="slip-grid-col">
+                <div class="slip-label">Designation:</div>
+                <div class="slip-val" id="slip-client-desig">Farmer Member</div>
+              </div>
+              <div class="slip-grid-col">
+                <div class="slip-label">Masked Aadhaar:</div>
+                <div class="slip-val" id="slip-client-aadhaar">5834-XXXX-9120</div>
+              </div>
+              <div class="slip-grid-col">
+                <div class="slip-label">Mobile Number:</div>
+                <div class="slip-val" id="slip-client-phone">+91 98401 23456 (OTP Verified)</div>
+              </div>
+              <div class="slip-grid-col">
+                <div class="slip-label">PACS Registration Code:</div>
+                <div class="slip-val" id="slip-pacs-code">TN-SLM-PACS-402</div>
+              </div>
+              <div class="slip-grid-col">
+                <div class="slip-label">Date &amp; Time:</div>
+                <div class="slip-val" id="slip-timestamp">30-Sep-2026 01:15 PM</div>
+              </div>
+            </div>
+
+            <div class="slip-divider"></div>
+
+            <div class="slip-scheme-box">
+              <div class="slip-scheme-header">
+                <strong id="slip-scheme-code">PM-KUSUM-SOLAR-2024</strong>: <span id="slip-scheme-title">PM-KUSUM Solar Agriculture Pumps</span>
+              </div>
+              <div class="slip-scheme-subsidy" id="slip-scheme-subsidy">
+                Entitlement: 60% Direct Subsidy (30% Central + 30% State) + 30% Cooperative Loan (10% Farmer Share)
+              </div>
+            </div>
+
+            <div class="slip-decision-container" id="slip-decision-container">
+              <!-- Dynamically shows YES (Eligible) or NO (Ineligible / Pending) -->
+            </div>
+
+            <div class="slip-docs-breakdown" id="slip-docs-breakdown">
+              <!-- Dynamically populated with Submitted vs Missing docs -->
+            </div>
+
+            <div class="slip-footer-signatures">
+              <div class="signature-box">
+                <div class="sig-line"></div>
+                <span>Client / Applicant Signature</span>
+              </div>
+              <div class="signature-box">
+                <div class="sig-stamp">PACS VERIFIED ✓</div>
+                <div class="sig-line"></div>
+                <span>PACS Secretary / Verification Officer</span>
+              </div>
+            </div>
+
+            <div class="slip-bottom-legal">
+              This verification slip is generated by SahkarSaathi PACS Hardware Assistant for statutory pre-qualification under State Cooperative Societies Act.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Scheme Detail Modal Viewer -->
+  <div id="scheme-detail-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-scheme-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-scheme-title">Scheme Details</h3>
+        <button class="btn btn-secondary btn-sm" id="btn-close-modal" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body" id="modal-scheme-content">
+        <!-- Content injected dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" id="btn-modal-ask-bot">
+          Ask Chatbot in Selected Language
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookie Consent Banner -->
+  <aside id="cookie-consent-banner" class="cookie-banner hidden" role="region" aria-label="Cookie consent banner">
+    <div class="cookie-text">
+      <strong>SahkarSaathi Privacy Notice:</strong> This application uses session cookies to store regional language preferences and saved bookmarks in compliance with Government Data Governance Norms.
+    </div>
+    <div class="cookie-actions">
+      <button class="btn btn-primary btn-sm" id="btn-cookie-accept">Accept Cookies</button>
+      <button class="btn btn-secondary btn-sm" id="btn-cookie-decline">Decline</button>
+    </div>
+  </aside>
+
+  <!-- Telemetry Bar -->
+  <div class="analytics-bar">
+    <span>🌾 SahkarSaathi Cooperative Governance Engine: Active</span>
+    <span id="telemetry-counter">Telemetry Events Logged: 1</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div>
+        <p>&copy; 2026 SahkarSaathi: Multilingual Cooperative Governance &amp; Legal Assistance.</p>
+        <p style="font-size: 11px; margin-top: 2px; color: #a7f3d0;">Grounded in Official Ministry of Cooperation &amp; NABARD Guidelines.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#main-content">Privacy Policy</a>
+        <a href="#main-content">Terms of Service</a>
+        <a href="sitemap.xml" target="_blank">Sitemap</a>
+        <a href="robots.txt" target="_blank">Robots.txt</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>

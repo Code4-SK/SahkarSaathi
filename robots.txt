@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sahkarsaathi.gov.in/sitemap.xml

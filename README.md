@@ -7,6 +7,10 @@
 [![Platform: Web / PACS Kiosk](https://img.shields.io/badge/Platform-Web%20%2F%20PACS%20Kiosk-blue.svg)]()
 
 ![Architecture](./SIH_2026.png)
+![Architecture](./SIH_2026_BOT.png)
+![Architecture](./SIH_2026_MSG.png)
+![Architecture](./SIH_2026_QR.png)
+
 
 SahkarSaathi is a comprehensive, nature-inspired digital governance platform designed for Primary Agricultural Credit Societies (PACS), farmers, and cooperative members across India. It bridges regional language barriers, provides official scheme awareness, and accelerates statutory document verification.
 
